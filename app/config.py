@@ -6,11 +6,11 @@ class Settings(BaseSettings):
     database_url: str = "sqlite:///./scores.db"
     leaderboard_tz: str = "Europe/Warsaw"
     allowed_origins: str = "*"
-    game_session_ttl_seconds: int = 7200
-    min_seconds_per_score: float = 0.8
-    max_score: int = 1000
-    player_save_limit: int = 20
-    player_save_window_seconds: int = 600
+    game_session_ttl_seconds: int
+    min_seconds_per_score: float
+    max_score: int
+    player_save_limit: int
+    player_save_window_seconds: int
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
