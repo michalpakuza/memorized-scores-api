@@ -1,0 +1,11 @@
+.env
+.venv
+venv
+__pycache__
+*.pyc
+*.pyo
+*.db
+.git
+docs
+README.md
+game-scores-api.zip
