@@ -14,7 +14,7 @@ class Score(Base):
     score: Mapped[int] = mapped_column(Integer, index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
     player_id: Mapped[str] = mapped_column(String(80), index=True)
-
+    group_code: Mapped[str | None] = mapped_column(String(16), index=True, nullable=True)
 
 
 class GameSession(Base):
@@ -25,3 +25,22 @@ class GameSession(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
     used_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+
+class PlayerGroup(Base):
+    __tablename__ = "player_groups"
+
+    player_id: Mapped[str] = mapped_column(String(80), primary_key=True, index=True)
+    group_code: Mapped[str | None] = mapped_column(String(16), index=True, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+
+
+class PlayerGroupChange(Base):
+    __tablename__ = "player_group_changes"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    player_id: Mapped[str] = mapped_column(String(80), index=True)
+    old_group_code: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    new_group_code: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)

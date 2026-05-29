@@ -11,6 +11,8 @@ class Settings(BaseSettings):
     max_score: int
     player_save_limit: int
     player_save_window_seconds: int
+    group_change_limit: int
+    group_change_window_seconds: int
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
