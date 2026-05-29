@@ -414,6 +414,25 @@ def _normalize_group_code(group_code: str) -> str:
     return normalized
 
 
+@app.get("/scores/week", response_model=list[ScoreOut], dependencies=[Depends(protect)])
+def get_week_scores(
+    db: Session = Depends(get_db),
+    limit: int = Query(default=20, ge=1, le=100),
+) -> list[Score]:
+    tz = ZoneInfo(settings.leaderboard_tz)
+    today_local = datetime.now(tz).date()
+    week_start_local = today_local - timedelta(days=today_local.weekday())
+    start_local = datetime.combine(week_start_local, time.min, tzinfo=tz)
+    start_utc = start_local.astimezone(timezone.utc)
+
+    statement = (
+        select(Score)
+        .where(Score.created_at >= start_utc)
+        .order_by(Score.score.desc(), Score.created_at.asc())
+        .limit(limit)
+    )
+    return list(db.scalars(statement))
+
 @app.get(
     "/scores/all-time", response_model=list[ScoreOut], dependencies=[Depends(protect)]
 )
