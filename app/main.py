@@ -2,7 +2,7 @@ from datetime import datetime, time, timezone, timedelta
 from uuid import uuid4
 from zoneinfo import ZoneInfo
 
-from fastapi import Depends, FastAPI, HTTPException, Query, Request, status
+from fastapi import Depends, FastAPI, HTTPException, Query, Request, status, Response
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import func, inspect, select, text, update
 from sqlalchemy.orm import Session
@@ -63,6 +63,9 @@ def protect(request: Request) -> None:
 def health() -> dict[str, str]:
     return {"status": "ok"}
 
+@app.head("/health")
+def health_head():
+    return Response(status_code=200)
 
 @app.post(
     "/game-sessions/start",
